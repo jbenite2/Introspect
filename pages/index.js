@@ -11,7 +11,7 @@ export default function Home() {
 
       <main>
         <h1 className={styles.title}>
-          PHILOSOPHY to <a href="https://nextjs.org">Next.js!</a>
+          This is a chance for you to Introspect!
         </h1>
 
         <p className={styles.description}>
