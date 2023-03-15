@@ -12,6 +12,7 @@ export default function Home() {
       <main>
         <h1 className={styles.title}>
           This is a chance for you to Introspect!
+            Now is temporary
         </h1>
 
         <p className={styles.description}>
