@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function Home() {
     const [data, setData] = useState([]);
-    const url = 'http://localhost:3001/'
+    const url = 'api/get-pokemon'
     
     const getAllData = () => (
         axios.get(`${url}`)
