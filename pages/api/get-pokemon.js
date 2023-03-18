@@ -1,20 +1,24 @@
-require('dotenv').config()
-const express = require('express') //Instance of the express library
-const app = express() //Creating an app from the instance
-const mysql = require('mysql2')
-const db = mysql.createConnection(process.env.DATABASE_URL)
-console.log('Connected to PlanetScale!')
+const cors = require('cors');
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const mysql = require('mysql2');
+const db = mysql.createConnection(process.env.DATABASE_URL);
+
+app.use(cors());
+
+console.log('Connected to PlanetScale!');
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+  db.query('SELECT * FROM `ptasks`', (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('An error occurred while retrieving data');
+    }
+    res.send(results);
+  });
+});
 
-db.query('SELECT * FROM `ptasks`', (err, results) => {
-    console.log(results)
-})
-
-db.end()
-
-app.listen(3000, () => {
-    console.log('Yay, your server is running in port 3000')
-  })
+app.listen(3001, () => {
+  console.log('Yay, your server is running in port 3001');
+});
