@@ -32,11 +32,7 @@
     ```bash
      npm install
     ```
-7. Download dependencies
-    ```bash
-     npm install
-    ```
-8. Start development server
+7. Start development server
     ```bash
      yarn start
     ```
