@@ -30,11 +30,15 @@
     ```
 6. Download dependencies
     ```bash
-     npm install
+    npm install
     ```
-7. Start development server
+7. Generate a production build of app
     ```bash
-     yarn start
+    npm run build
+    ```
+8. Start development server
+    ```bash
+     npm start
     ```
 
 # Deployment
