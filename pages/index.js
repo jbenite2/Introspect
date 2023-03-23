@@ -4,49 +4,48 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Home() {
-    const [data, setData] = useState([]);
-    const url = 'api/get-pokemon'
-    
-    const getAllData = () => (
-        axios.get(`${url}`)
-        .then((res) => setData(res.data))
-        .catch((err) => console.log(err))
-    )
+  const [data, setData] = useState([]);
+  const url = '/api/display';
 
-    useEffect(() => {
-        getAllData()
-    }, [])
+  const fetchData = async () => {
+    try {
+      console.log('TESTING', data);
+      const response = await axios.get(url);
+      console.log('TESTING', data);
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    console.log(data)
+  useEffect(() => {
+    fetchData();
+  }, []);
 
 
-    return (
-        <div className={styles.container}>
-            <Head>
-                <title>Create Next App</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-            <main>
-                <h1 className={styles.title}>
-                    This is a chance for you to Introspect!
-                </h1>
+      <main>
+        <h1 className={styles.title}>Introspect!</h1>
 
-                <p className={styles.description}>
-                    Jose is testing the connection to the database here:
-                    <div>
-                        {data.length > 0 ? (
-                        data.map((item) => (
-                            <p key={item.id}>{item.name}</p>
-                        ))
-                        ) : (
-                        <p>No data found</p>
-                        )}
-                    </div>
-                </p>
-            </main>
+        <p className={styles.description}>
+          Jose is testing the connection to the database here:
+          <div>
+            {data.length > 0 ? (
+              data.map((item) => <p key={item.id}>{item.name}</p>)
+            ) : (
+              <p>No data found</p>
+            )}
+          </div>
+        </p>
+      </main>
 
-            <style jsx>{`
+      <style jsx>{`
         main {
           padding: 5rem 0;
           flex: 1;
@@ -83,7 +82,7 @@ export default function Home() {
         }
       `}</style>
 
-            <style jsx global>{`
+      <style jsx global>{`
         html,
         body {
           padding: 0;
@@ -96,6 +95,6 @@ export default function Home() {
           box-sizing: border-box;
         }
       `}</style>
-        </div>
-    )
+    </div>
+  );
 }
