@@ -8,12 +8,12 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url = "mysql://root@127.0.0.1:3309/spankys"
+  url = "mysql://root@127.0.0.1:3309/ddb"
   referentialIntegrity = "prisma"
 }
 
-model tasks{
+model users{
   id Int @id @default(autoincrement())
   name String
-  time String
+  age Int
 }

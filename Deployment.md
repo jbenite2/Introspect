@@ -65,16 +65,25 @@
     brew install planetscale/tap/pscale
     brew install mysql-client
 ```
-5. Run a local proxy to your database, which allows a simpler way to connect to your database when running your app locally
+5. Create a new database
 ```bash
-    pscale connect spankys main --port 3309
+    pscale create ddb
 ```
-6. Synchronize changes 
+6. Run a local proxy to your database, which allows a simpler way to connect to your database when running your app locally
+```bash
+    pscale connect ddb main --port 3309
+```
+7. Synchronize changes 
 ```bash
     npx prisma db push
 ```
+8. Access the MySQL interface and start editing manually
+```bash
+pscale shell ddb main
+```
+
 # Database 
 > For this project we'll be using PlanetScale, an AWS service that allows users to store data in a relational database via queries. 
   1. Create an account in PlanetScale or log in using your GitHub account.
   2. Create a database using the free tier. 
-  3. For this project we'll be using a DB Jose created last year.
+  3. For this project we'll be using a database created under Dom's account in PlanetScale called ddb (Dom's Database)
