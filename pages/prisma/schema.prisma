@@ -3,17 +3,17 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
-  url = "mysql://root@127.0.0.1:3309/ddb"
-  referentialIntegrity = "prisma"
+  url      = env("DATABASE_URL")
 }
 
-model users{
-  id Int @id @default(autoincrement())
-  userName String
-  age Int
+model Users {
+  id        Int      @default(autoincrement()) @id
+  email     String   @unique
+  name      String
+  lastname  String
+  password  String
 }

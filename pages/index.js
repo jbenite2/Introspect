@@ -6,21 +6,13 @@ export default function Home() {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    try {
-      const response = await fetch("/api/output", {
-        method:"GET",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(body)
-      });
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+    const response = await fetch('/api/users')
+    const object = await response.json()
+    setData(object)
+  }
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
 
   return (
