@@ -1,17 +1,17 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const url = '/api/display';
 
   const fetchData = async () => {
     try {
-      console.log('TESTING', data);
-      const response = await axios.get(url);
-      console.log('TESTING', data);
+      const response = await fetch("/api/output", {
+        method:"GET",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      });
       setData(response.data);
     } catch (error) {
       console.error(error);
