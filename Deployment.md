@@ -39,7 +39,40 @@
 
 # Deployment
 > We'll be using Vercel for our deployment process. 
+>
+# Prisma
+> Setting up Prisma
+1. Download Prisma
+    ```bash
+     npx prisma init
+    ```
+2. Go to .env file and update the ${ DATABASE_URL }
+3. Set the schema.prism file to this (per documentation)
+   ```bash
+    generator client {
+        provider = "prisma-client-js"
+        previewFeatures = ["referentialIntegrity"]
+    }
 
+    datasource db {
+        provider = "mysql"
+        url = env("DATABASE_URL")
+        referentialIntegrity = "prisma"
+    }
+    ```
+4. Download planetscale CLI
+```bash
+    brew install planetscale/tap/pscale
+    brew install mysql-client
+```
+5. Run a local proxy to your database, which allows a simpler way to connect to your database when running your app locally
+```bash
+    pscale connect spankys main --port 3309
+```
+6. Synchronize changes 
+```bash
+    npx prisma db push
+```
 # Database 
 > For this project we'll be using PlanetScale, an AWS service that allows users to store data in a relational database via queries. 
   1. Create an account in PlanetScale or log in using your GitHub account.

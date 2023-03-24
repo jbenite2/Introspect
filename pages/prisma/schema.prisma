@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "mysql"
+  url = "mysql://root@127.0.0.1:3309/spankys"
+  referentialIntegrity = "prisma"
+}
+
+model tasks{
+  id Int @id @default(autoincrement())
+  name String
+  time String
+}
