@@ -30,17 +30,18 @@
     ```
 6. Download dependencies
     ```bash
-    npm install
+     npm install
     ```
-7. Generate a production build of app
+7. Start development server
     ```bash
-    npm run build
-    ```
-8. Start development server
-    ```bash
-     npm start
+     yarn start
     ```
 
 # Deployment
-
 > We'll be using Vercel for our deployment process. 
+
+# Database 
+> For this project we'll be using PlanetScale, an AWS service that allows users to store data in a relational database via queries. 
+  1. Create an account in PlanetScale or log in using your GitHub account.
+  2. Create a database using the free tier. 
+  3. For this project we'll be using a DB Jose created last year.
