@@ -28,8 +28,10 @@ async function addUser(req, res){
     try{
         const newEntry = await prisma.users.create({
             data: {
-                userName: body.userName,
-                age: body.age
+                email: body.email,
+                name: body.name,
+                lastName: body.lastName,
+                password: body.password,
             }
         })
         return res.status(200).json(newEntry, {success: true});
