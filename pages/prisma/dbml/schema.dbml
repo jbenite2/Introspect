@@ -1,0 +1,56 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Users {
+  id Int [pk, increment]
+  email String [unique, not null]
+  phone String [unique, not null]
+  firstName String [not null]
+  lastName String [not null]
+  password String [not null]
+  consent Boolean [not null, default: false]
+  role Role [not null, default: 'USER']
+  responses Response [not null]
+}
+
+Table Response {
+  id Int [pk, increment]
+  usersId Int [not null]
+  Users Users [not null]
+  optionId Int [not null]
+  option Option [not null]
+}
+
+Table SurveyQuestion {
+  id Int [pk, increment]
+  prompt String [not null]
+  options Option [not null]
+}
+
+Table Option {
+  id Int [pk, increment]
+  text String [not null]
+  score Philosophy [not null]
+  questionId Int [not null]
+  question SurveyQuestion [not null]
+  Response Response [not null]
+}
+
+Enum Role {
+  ADMIN
+  USER
+}
+
+Enum Philosophy {
+  CARE_ETHICS
+  DEONTOLOGY
+  UTILITARIANISM
+  VIRTUE_ETHICS
+}
+
+Ref: Response.usersId > Users.id
+
+Ref: Response.optionId > Option.id
+
+Ref: Option.questionId > SurveyQuestion.id
