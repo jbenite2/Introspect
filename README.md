@@ -104,7 +104,6 @@
 
 4. Perform a push or pull to synchronize your changes with PlanetScale via Prisma
     ```bash
-     cd pages
      npx prisma db push
     ```
 5. Run a local proxy to your database, which allows a simpler way to connect to your database when running your app locally
@@ -138,19 +137,11 @@
 
 We are leveraging [next-auth](https://next-auth.js.org/) as our authentication library
 
-endpoints ``` /api/auth/* ``` 
-    - ``` signIn ```
-    - ``` callback ```
-    - ``` signOut ```
-    - etc.
-
+endpoints `/api/auth/*` - `signIn` - `callback` - `signOut` - etc.
 
 Providers are found in the /pages/api/auth/[...nextauth].js file
 
-We support 
-    - Github
-
-
+We support - Github
 
 # Q/A
 
