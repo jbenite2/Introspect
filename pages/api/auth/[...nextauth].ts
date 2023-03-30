@@ -4,7 +4,8 @@ import GithubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
 import AppleProvider from "next-auth/providers/apple"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { Users, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import {PrismaAdapter} from "@next-auth/prisma-adapter"
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,7 @@ interface Credentials {
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
     // https://next-auth.js.org/configuration/providers/oauth
     providers: [
         /* EmailProvider({
@@ -38,50 +40,43 @@ export const authOptions: NextAuthOptions = {
     }),
     */ 
         
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: {
-                    label: "Email",
-                    type: "text",
-                    placeholder: "srodri25@nd.edu",
-                },
-                password: { label: "Password", 
-                            type: "password",
-                            placeholder: "********" 
-                    },
-            },
-            async authorize(credentials: { email: string; password: string }): Promise<Users | null> {
+        // CredentialsProvider({
+        //     name: "Credentials",
+        //     credentials: {
+        //         email: {
+        //             label: "Email",
+        //             type: "text",
+        //             placeholder: "srodri25@nd.edu",
+        //         },
+        //         password: { label: "Password", 
+        //                     type: "password",
+        //                     placeholder: "********" 
+        //             },
+        //     },
+        //     authorize(credentials: Credentials) {
+        //         const { email, password } = credentials as {
+        //             email: string;
+        //             password: string;
+        //         };
 
-                const users = await prisma.users.findUnique({
-                    where: {
-                        email: credentials.email
-                    }
-                });
-                
-                if(users && users.password === credentials.password) {
-                    return users;
-                }
-
-                return null;
-            },
-        }),
-        AppleProvider({
-            clientId: process.env.APPLE_ID,
-            clientSecret: process.env.APPLE_SECRET,
-        }),
+        //     },
+        // }),
+        // AppleProvider({
+        //     clientId: process.env.APPLE_ID,
+        //     clientSecret: process.env.APPLE_SECRET,
+        // }),
         GithubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
         }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET,
-        }),
-        TwitterProvider({
-            clientId: process.env.TWITTER_ID,
-            clientSecret: process.env.TWITTER_SECRET,
-        }),
+        // GoogleProvider({
+        //     clientId: process.env.GOOGLE_ID,
+        //     clientSecret: process.env.GOOGLE_SECRET,
+        // }),
+        // TwitterProvider({
+        //     clientId: process.env.TWITTER_ID,
+        //     clientSecret: process.env.TWITTER_SECRET,
+        // }),
     ],
     theme: {
         colorScheme: "light",

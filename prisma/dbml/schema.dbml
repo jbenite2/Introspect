@@ -2,34 +2,76 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table Users {
-  id Int [pk, increment]
-  email String [unique, not null]
-  phone String [unique, not null]
-  firstName String [not null]
-  lastName String [not null]
-  password String [not null]
+Table Account {
+  id String [pk]
+  userId String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refreshToken String
+  accessToken String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [unique]
+  }
+}
+
+Table Session {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table VerificationToken {
+  identifier String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (identifier, token) [unique]
+  }
+}
+
+Table User {
+  id String [pk]
+  firstName String
+  email String [unique]
+  password String
+  emailVerified DateTime
   consent Boolean [not null, default: false]
   role Role [not null, default: 'USER']
+  accounts Account [not null]
+  sessions Session [not null]
   responses Response [not null]
 }
 
 Table Response {
-  id Int [pk, increment]
-  optionId Int [not null]
-  usersId Int [not null]
-  Users Users [not null]
-  option Option [not null]
+  id String [pk]
+  User User [not null]
+  userId String [not null]
+  Option Option [not null]
+  optionId String [not null]
 }
 
 Table SurveyQuestion {
   id Int [pk, increment]
   prompt String [not null]
   options Option [not null]
+
+  indexes {
+    (id, prompt) [unique]
+  }
 }
 
 Table Option {
-  id Int [pk, increment]
+  id String [pk]
   text String [not null]
   score Philosophy [not null]
   questionId Int [not null]
@@ -49,7 +91,11 @@ Enum Philosophy {
   VIRTUE_ETHICS
 }
 
-Ref: Response.usersId > Users.id
+Ref: Account.userId > User.id [delete: Cascade]
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: Response.userId > User.id [delete: Cascade]
 
 Ref: Response.optionId > Option.id
 
