@@ -30,6 +30,9 @@ model Response {
   usersId  Int
   Users    Users  @relation(fields: [usersId], references: [id])
   option   Option @relation(fields: [optionId], references: [id])
+
+  @@index([optionId])
+  @@index([usersId])
 }
 
 model SurveyQuestion {
@@ -45,6 +48,8 @@ model Option {
   questionId Int
   question   SurveyQuestion @relation(fields: [questionId], references: [id])
   Response   Response[]
+
+  @@index([questionId])
 }
 
 enum Role {
