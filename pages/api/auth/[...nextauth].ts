@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
                              placeholder: "********" 
                      },
              },
-             async authorize(credentials: Credentials) {
+             async authorize(credentials, req) {
                  const { email, password } = credentials as {
                      email: string;
                      password: string;
@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
                  });
                  if(user){
                     // validate password
+                    console.log(user);
                     return user;
                  }
 
@@ -80,9 +81,30 @@ export const authOptions: NextAuthOptions = {
         colorScheme: "light",
     },
     callbacks: {
-        async jwt({ token }) {
+        async jwt({ token, account, profile }) {
             token.userRole = "admin";
+            if(account){
+                token.accessToken = account.accessToken;
+                // token.id = profile.id;
+            }
             return token;
+        },
+        async signIn({ user, account, profile, email, credentials }) {
+            
+            return true;
+        },
+        async redirect({ url, baseUrl }) {
+            if(url.startsWith("/")){
+                return `${baseUrl}${url}`
+            } else if(new URL(url).origin === baseUrl){
+                return url;
+            }
+            return baseUrl;
+        },
+        async session({ session, token }) {
+            //session.sessionToken = token.accessToken;
+            //session.user.id = token.id;
+            return session;
         },
     },
 };
