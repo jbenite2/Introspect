@@ -49,8 +49,10 @@ model VerificationToken {
 model User {
   id            String     @id @default(cuid())
   firstName     String?
-  email         String?    @unique
-  password      String?
+  lastName      String?
+  email         String     @unique
+  phone         String?
+  password      String
   emailVerified DateTime?
   consent       Boolean    @default(false)
   role          Role       @default(USER)

@@ -42,8 +42,10 @@ Table VerificationToken {
 Table User {
   id String [pk]
   firstName String
-  email String [unique]
-  password String
+  lastName String
+  email String [unique, not null]
+  phone String
+  password String [not null]
   emailVerified DateTime
   consent Boolean [not null, default: false]
   role Role [not null, default: 'USER']
