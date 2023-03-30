@@ -25,6 +25,7 @@
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "prisma": "^4.11.0",
+    "prisma-dbml-generator": "^0.10.0",
     "should": "^13.2.3",
     "tailwindcss": "^3.2.7",
     "tape": "^5.6.3"

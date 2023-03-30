@@ -15,11 +15,11 @@ export default async function handler(req, res){
 async function listUsers(req, res){
     const body = req.body;
     try{
-        const users = await prisma.users.findMany();
-        return res.status(200).json(users, {success: true});
+        const users = await prisma.users.findMany()
+        return res.status(200).json(users, {success: true})
     } catch (error){
         console.error(error.message);
-        return res.status(500).json({error: error.message});
+        return res.status(500).json({error: error.message})
     }
 }
 
@@ -29,9 +29,10 @@ async function addUser(req, res){
         const newEntry = await prisma.users.create({
             data: {
                 email: body.email,
-                name: body.name,
+                firstName: body.firstName,
                 lastName: body.lastName,
                 password: body.password,
+                phone: body.phone
             }
         })
         return res.status(200).json(newEntry, {success: true});
