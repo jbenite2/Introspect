@@ -63,7 +63,7 @@ export default function Home () {
 
                 <div className='flex justify-center items-center'>
                   <a
-                    href='#'
+                    href='/signup'
                     className='text-sm text-gray-600 hover:text-gray-500'
                   >
                 Or click here to sign up
