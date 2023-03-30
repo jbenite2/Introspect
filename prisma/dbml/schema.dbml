@@ -16,9 +16,9 @@ Table Users {
 
 Table Response {
   id Int [pk, increment]
+  optionId Int [not null]
   usersId Int [not null]
   Users Users [not null]
-  optionId Int [not null]
   option Option [not null]
 }
 
