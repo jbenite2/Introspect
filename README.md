@@ -98,6 +98,7 @@
     ```
 4. Perform a push or pull to synchronize your changes with PlanetScale via Prisma
     ```bash
+     cd pages
      npx prisma db push
     ```
 5. Run a local proxy to your database, which allows a simpler way to connect to your database when running your app locally
