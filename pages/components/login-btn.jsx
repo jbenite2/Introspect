@@ -7,6 +7,6 @@ export default function LoginBtn() {
         return;
     }
     return(
-        <button className="mb-4 btn-primary" type="submit" onClick={() => signIn()}>Enter</button>
+        <button className="mb-4 btn-primary" type="submit" onClick={() => signIn()}>Login</button>
     )
 }

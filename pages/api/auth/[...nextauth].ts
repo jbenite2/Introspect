@@ -4,7 +4,14 @@ import GithubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
 import AppleProvider from "next-auth/providers/apple"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaClient } from "@prisma/client";
+import { Users, PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+interface Credentials {
+    email: string;
+    password: string;
+  }
 
 // import EmailProvider from "next-auth/providers/email"
 
@@ -34,15 +41,28 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                username: {
-                    label: "Username",
+                email: {
+                    label: "Email",
                     type: "text",
-                    placeholder: "jsmith",
+                    placeholder: "srodri25@nd.edu",
                 },
-                password: { label: "Password", type: "password" },
+                password: { label: "Password", 
+                            type: "password",
+                            placeholder: "********" 
+                    },
             },
-            async authorize(credentials, req) {
+            async authorize(credentials: { email: string; password: string }): Promise<Users | null> {
+
+                const users = await prisma.users.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
+                });
                 
+                if(users && users.password === credentials.password) {
+                    return users;
+                }
+
                 return null;
             },
         }),
