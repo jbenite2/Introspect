@@ -29,7 +29,7 @@ export default function Home() {
           Jose is testing the connection to the database here:
           <div>
             {data.length > 0 ? (
-              data.map((item) => <p key={item.id}>{item.name}</p>)
+              data.map((item) => <p key={item.id}>{item.firstName}</p>)
             ) : (
               <p>No data found</p>
             )}
