@@ -26,49 +26,47 @@ export const authOptions: NextAuthOptions = {
          server: process.env.EMAIL_SERVER,
          from: process.env.EMAIL_FROM,
        }),
-    // Temporarily removing the Apple provider from the demo site as the
-    // callback URL for it needs updating due to Vercel changing domains
-
-    Providers.Apple({
-      clientId: process.env.APPLE_ID,
-      clientSecret: {
-        appleId: process.env.APPLE_ID,
-        teamId: process.env.APPLE_TEAM_ID,
-        privateKey: process.env.APPLE_PRIVATE_KEY,
-        keyId: process.env.APPLE_KEY_ID,
-      },
-    }),
     */ 
-        
-        // CredentialsProvider({
-        //     name: "Credentials",
-        //     credentials: {
-        //         email: {
-        //             label: "Email",
-        //             type: "text",
-        //             placeholder: "srodri25@nd.edu",
-        //         },
-        //         password: { label: "Password", 
-        //                     type: "password",
-        //                     placeholder: "********" 
-        //             },
-        //     },
-        //     authorize(credentials: Credentials) {
-        //         const { email, password } = credentials as {
-        //             email: string;
-        //             password: string;
-        //         };
+         CredentialsProvider({
+             name: "Credentials",
+             credentials: {
+                 email: {
+                     label: "Email",
+                     type: "text",
+                     placeholder: "srodri25@nd.edu",
+                 },
+                 password: { label: "Password", 
+                             type: "password",
+                             placeholder: "********" 
+                     },
+             },
+             async authorize(credentials: Credentials) {
+                 const { email, password } = credentials as {
+                     email: string;
+                     password: string;
+                 };
 
-        //     },
-        // }),
+                 const user = await prisma.user.findUnique({
+                    where:{
+                        email: email,
+                    }
+                 });
+                 if(user){
+                    // validate password
+                    return user;
+                 }
+
+                 return null;
+             },
+         }),
         // AppleProvider({
         //     clientId: process.env.APPLE_ID,
         //     clientSecret: process.env.APPLE_SECRET,
         // }),
-        GithubProvider({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET,
-        }),
+        // GithubProvider({
+        //     clientId: process.env.GITHUB_ID,
+        //     clientSecret: process.env.GITHUB_SECRET,
+        // }),
         // GoogleProvider({
         //     clientId: process.env.GOOGLE_ID,
         //     clientSecret: process.env.GOOGLE_SECRET,
