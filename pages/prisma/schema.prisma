@@ -1,19 +1,68 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// if you want to generate a image use
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+// run `npx prisma generate`
+// then go to https://dbdiagram.io/ to generate an image from the file generated in ./dbml
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  relationMode = "prisma"
+  url          = env("DATABASE_URL")
 }
 
 model Users {
-  id        Int      @default(autoincrement()) @id
-  email     String   @unique
-  name      String
-  lastname  String
+  id        Int        @id @unique @default(autoincrement())
+  email     String     @unique
+  phone     String     @unique
+  firstName String
+  lastName  String
   password  String
+  consent   Boolean    @default(false)
+  role      Role       @default(USER)
+  responses Response[]
+}
+
+model Response {
+  id       Int    @id @default(autoincrement())
+  usersId  Int
+  Users    Users  @relation(fields: [usersId], references: [id])
+  optionId Int // selection
+  option   Option @relation(fields: [optionId], references: [id])
+}
+
+model SurveyQuestion {
+  id      Int      @id @default(autoincrement())
+  prompt  String
+  options Option[]
+}
+
+model Option {
+  id         Int            @id @default(autoincrement()) // #TODO
+  text       String
+  score      Philosophy
+  questionId Int // what question is it associated with
+  question   SurveyQuestion @relation(fields: [questionId], references: [id])
+  Response   Response[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Philosophy {
+  CARE_ETHICS
+  DEONTOLOGY
+  UTILITARIANISM
+  VIRTUE_ETHICS
 }
