@@ -128,6 +128,6 @@
 6. Easily deploy using Vercel
 #Q/A
 - If you get this error: The column `(not available)` does not exist in the current database.
-```bash
-    npx prisma db push
-```
+    ```bash
+        npx prisma db push
+    ```
