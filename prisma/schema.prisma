@@ -13,17 +13,19 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  provider          String
-  providerAccountId String
-  refreshToken      String? @db.Text
-  accessToken       String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
+  id                 String  @id @default(cuid())
+  userId             String
+  provider           String
+  providerAccountId  String
+  refreshToken       String? @db.VarChar(500)
+  accessToken        String? @db.VarChar(500)
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -48,6 +50,8 @@ model VerificationToken {
 
 model User {
   id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   firstName     String?
   lastName      String?
   email         String     @unique

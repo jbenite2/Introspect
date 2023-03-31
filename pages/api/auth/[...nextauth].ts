@@ -1,112 +1,103 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import GithubProvider from "next-auth/providers/github";
-import TwitterProvider from "next-auth/providers/twitter";
-import AppleProvider from "next-auth/providers/apple"
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaClient } from "@prisma/client";
-import {PrismaAdapter} from "@next-auth/prisma-adapter"
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { hashPassword, verifyPassword } from "../../../lib/auth/passwords";
+
 
 const prisma = new PrismaClient();
 
-interface Credentials {
-    email: string;
-    password: string;
-  }
+export default NextAuth({
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/",
+  },
+  providers: [
+    CredentialsProvider({
+      id: "app-login",
+      name: "App Login",
+      credentials: {
+        email: {
+          label: "Email Address",
+          type: "email",
+          placeholder: "john.doe@example.com",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "Your super secure password",
+        },
+      },
+      async authorize(credentials) {
+        try {
+          let maybeUser = await prisma.user.findFirst({
+            where: {
+              email: credentials.email,
+            },
+            select: {
+              id: true,
+              email: true,
+              password: true,
+            },
+          });
 
-// import EmailProvider from "next-auth/providers/email"
-
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
-export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
-    // https://next-auth.js.org/configuration/providers/oauth
-    providers: [
-        /* EmailProvider({
-         server: process.env.EMAIL_SERVER,
-         from: process.env.EMAIL_FROM,
-       }),
-    */ 
-         CredentialsProvider({
-             name: "Credentials",
-             credentials: {
-                 email: {
-                     label: "Email",
-                     type: "text",
-                     placeholder: "srodri25@nd.edu",
-                 },
-                 password: { label: "Password", 
-                             type: "password",
-                             placeholder: "********" 
-                     },
-             },
-             async authorize(credentials, req) {
-                 const { email, password } = credentials as {
-                     email: string;
-                     password: string;
-                 };
-
-                 const user = await prisma.user.findUnique({
-                    where:{
-                        email: email,
-                    }
-                 });
-                 if(user){
-                    // validate password
-                    console.log(user);
-                    return user;
-                 }
-
-                 return null;
-             },
-         }),
-        // AppleProvider({
-        //     clientId: process.env.APPLE_ID,
-        //     clientSecret: process.env.APPLE_SECRET,
-        // }),
-        // GithubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET,
-        // }),
-        // GoogleProvider({
-        //     clientId: process.env.GOOGLE_ID,
-        //     clientSecret: process.env.GOOGLE_SECRET,
-        // }),
-        // TwitterProvider({
-        //     clientId: process.env.TWITTER_ID,
-        //     clientSecret: process.env.TWITTER_SECRET,
-        // }),
-    ],
-    theme: {
-        colorScheme: "light",
-    },
-    callbacks: {
-        async jwt({ token, account, profile }) {
-            token.userRole = "admin";
-            if(account){
-                token.accessToken = account.accessToken;
-                // token.id = profile.id;
+          if (!maybeUser) {
+            if (!credentials.password || !credentials.email) {
+              throw new Error("Invalid Credentials");
             }
-            return token;
-        },
-        async signIn({ user, account, profile, email, credentials }) {
-            
-            return true;
-        },
-        async redirect({ url, baseUrl }) {
-            if(url.startsWith("/")){
-                return `${baseUrl}${url}`
-            } else if(new URL(url).origin === baseUrl){
-                return url;
-            }
-            return baseUrl;
-        },
-        async session({ session, token }) {
-            //session.sessionToken = token.accessToken;
-            //session.user.id = token.id;
-            return session;
-        },
-    },
-};
 
-export default NextAuth(authOptions);
+          } else {
+            const isValid = await verifyPassword(
+              credentials.password,
+              maybeUser.password
+            );
+
+            if (!isValid) {
+              throw new Error("Invalid Credentials");
+            }
+          }
+
+          return {
+            id: maybeUser.id,
+            email: maybeUser.email,
+          };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    }),
+  ],
+  theme: {
+    colorScheme: "light",
+  },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token.id = user.id;
+      }
+
+      return token;
+    },
+    async session({ session, token, user }) {
+      const sess = {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id as string,
+          role: token.role as string,
+        },
+      };
+
+      return sess;
+    },
+  },
+
+});
