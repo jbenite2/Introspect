@@ -3,8 +3,6 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Home() {
-    session_check();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -171,11 +169,4 @@ export default function Home() {
             </div>
         </div>
     );
-}
-
-async function session_check() {
-    const session = await getSession();
-    if (session) {
-        router.push("/dashboard");
-    }
 }
