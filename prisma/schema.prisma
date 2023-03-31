@@ -12,37 +12,78 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Users {
-  id        Int        @id @unique @default(autoincrement())
-  email     String     @unique
-  phone     String     @unique
-  firstName String
-  lastName  String
-  password  String
-  consent   Boolean    @default(false)
-  role      Role       @default(USER)
-  responses Response[]
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  provider           String
+  providerAccountId  String
+  refreshToken       String? @db.VarChar(500)
+  accessToken        String? @db.VarChar(500)
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  firstName     String?
+  lastName      String?
+  email         String     @unique
+  phone         String?
+  password      String
+  emailVerified DateTime?
+  consent       Boolean    @default(false)
+  role          Role       @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  responses     Response[]
 }
 
 model Response {
-  id       Int    @id @default(autoincrement())
-  optionId Int
-  usersId  Int
-  Users    Users  @relation(fields: [usersId], references: [id])
-  option   Option @relation(fields: [optionId], references: [id])
+  id String @id @default(cuid())
 
-  @@index([optionId])
-  @@index([usersId])
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  Option   Option @relation(fields: [optionId], references: [id])
+  optionId String
 }
 
 model SurveyQuestion {
   id      Int      @id @default(autoincrement())
   prompt  String
   options Option[]
+
+  @@unique([id, prompt])
 }
 
 model Option {
-  id         Int            @id @default(autoincrement())
+  id         String         @id @default(cuid())
   text       String
   score      Philosophy
   questionId Int
