@@ -14,6 +14,8 @@ Table Account {
   scope String
   id_token String
   session_state String
+  oauth_token_secret String
+  oauth_token String
   user User [not null]
 
   indexes {
@@ -41,6 +43,8 @@ Table VerificationToken {
 
 Table User {
   id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
   firstName String
   lastName String
   email String [unique, not null]
