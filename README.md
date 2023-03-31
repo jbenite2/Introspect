@@ -1,3 +1,4 @@
+![alt text](./public/code-stack.png)
 # Getting started with Next JS
 
 1. Initialize a git repository in Git Hub
