@@ -1,6 +1,6 @@
 # Code Stack 
 ![alt text](./public/code-stack.png)
-# Getting started with Next JS
+# Getting started with NextJS
 
 1. Initialize a git repository in Git Hub
 2. Make a local copy of the repo
