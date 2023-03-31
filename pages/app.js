@@ -1,36 +1,44 @@
-import {
-    getSession,
-    getCsrfToken,
-    signIn,
-    getProviders,
-} from "next-auth/react";
-import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useState } from "react";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-const MINIMUM_ACTIVITY_TIMEOUT = 850;
+export default function Home() {
+    session_check();
 
-export default function Home({ csrfToken, providers }) {
-    const [isSubmitting, setSubmitting] = React.useState(false);
-    const { register, handleSubmit } = useForm();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleProviderSignIn = (provider) => {
-        signIn(provider.id);
-    };
+    const router = useRouter();
 
-    const onSubmit = async (data) => {
-        setSubmitting(true);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
         try {
-            signIn("app-login", {
-                callbackUrl: "/",
-                email: data.email,
-                password: data.password,
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
             });
 
-            setTimeout(() => {
-                setSubmitting(false);
-            }, MINIMUM_ACTIVITY_TIMEOUT);
+            if (response.status == 200) {
+                //create a session and route user to dashboard or whatever
+                setEmail("");
+                setPassword("");
+                alert("Login successful");
+                router.push("/dashboard");
+            } else {
+                setEmail("");
+                setPassword("");
+                console.log("Invalid credentials");
+                alert("Invalid credentials, try again.");
+            }
         } catch (error) {
-            console.log(error);
+            console.error("Error submitting form:", error);
         }
     };
 
@@ -59,15 +67,9 @@ export default function Home({ csrfToken, providers }) {
                             className="mt-8 space-y-6"
                             action="#"
                             method="POST"
-                            onSubmit={handleSubmit(onSubmit)}
+                            onSubmit={handleSubmit}
                         >
-                            <input
-                                name="csrfToken"
-                                {...register("csrfToken")}
-                                type="hidden"
-                                defaultValue={csrfToken}
-                                hidden
-                            />
+                            <input name="csrfToken" type="hidden" hidden />
 
                             <div className="rounded-md shadow-sm">
                                 <div className="mb-4">
@@ -83,9 +85,12 @@ export default function Home({ csrfToken, providers }) {
                                         type="email"
                                         autoComplete="email"
                                         required
-                                        {...register("email")}
                                         className="relative block w-full pl-2 rounded-t-md border-0 py-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         placeholder="Email address"
+                                        value={email}
+                                        onChange={(event) =>
+                                            setEmail(event.target.value)
+                                        }
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -101,9 +106,12 @@ export default function Home({ csrfToken, providers }) {
                                         type="password"
                                         autoComplete="current-password"
                                         required
-                                        {...register("password")}
                                         className="relative block w-full pl-2 rounded-b-md border-0 py-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         placeholder="Password"
+                                        value={password}
+                                        onChange={(event) =>
+                                            setPassword(event.target.value)
+                                        }
                                     />
                                 </div>
                             </div>
@@ -111,7 +119,6 @@ export default function Home({ csrfToken, providers }) {
                             <div className="">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting}
                                     className="mb-4 btn-primary"
                                 >
                                     Log in
@@ -119,7 +126,7 @@ export default function Home({ csrfToken, providers }) {
 
                                 <div className="flex justify-center items-center">
                                     <a
-                                        href="#"
+                                        href="./signup"
                                         className="text-sm text-gray-600 hover:text-gray-500"
                                     >
                                         Or click here to sign up
@@ -166,19 +173,9 @@ export default function Home({ csrfToken, providers }) {
     );
 }
 
-export async function getServerSideProps(context) {
-    const session = await getSession(context);
-
+async function session_check() {
+    const session = await getSession();
     if (session) {
-        return { redirect: { permanent: false, destination: "/" } };
+        router.push("/dashboard");
     }
-
-    const csrfToken = await getCsrfToken({ req: context.req });
-    const providers = filter(await getProviders(), (provider) => {
-        return provider.type !== "credentials";
-    });
-
-    return {
-        props: { csrfToken, providers },
-    };
 }
