@@ -1,8 +1,10 @@
 import React from 'react';
 import Navbar from './components/navbar/navbar';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 function Dashboard() {
+  const Router = useRouter()
   return (
     <div className="bg-gradient-to-tr from-purple-600 to-blue-900 min-h-screen">
       <Navbar />
@@ -22,7 +24,7 @@ function Dashboard() {
         <p className="text-white ptext-lg px-10 mb-8 lg:mb-12 lg:px-4">
             Discover insights about yourself and improve your life.
         </p>
-        <button className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow">
+        <button onClick={() => Router.push('/survey/instructions') } className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow">
           Get started
         </button>
         <div className="w-full max-w-[500px] lg:ml-[+600px]">
