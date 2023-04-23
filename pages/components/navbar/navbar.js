@@ -76,13 +76,13 @@ function Navbar() {
                 About
               </a>
               <a
-                href="#"
+                href="/survey/instructions"
                 className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
               >
                 Survey
               </a>
               <a
-                href="#"
+                href="/analytics"
                 className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
               >
                 Analytics
