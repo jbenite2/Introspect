@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { useRouter } from "next/router"
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const SignupForm = () => {
   const [email, setEmail] = useState('')
@@ -6,6 +9,7 @@ const SignupForm = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -27,6 +31,15 @@ const SignupForm = () => {
 
       const data = await response.json() // parse response from server
       console.log(data) // log response from server
+
+      if(response.ok){
+        router.push('/dashboard')
+        return res.status(200).json(user, { success: true });
+      } else {
+          return res.status(500).json({ error: error.message });
+      }
+
+
     } catch (error) {
       console.error('Error submitting form:', error)
     }
