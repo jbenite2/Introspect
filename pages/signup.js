@@ -60,7 +60,7 @@ const SignupForm = () => {
         method='POST'
       >
         <input type='hidden' name='remember' value='true' />
-        <div className='rounded-md shadow-sm'>
+        <div className='rounded-md shadow-sm px-3'>
           <div className='mb-4'>
             <label htmlFor='email' className='sr-only'>
               Email:

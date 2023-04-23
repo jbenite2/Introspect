@@ -54,7 +54,7 @@ function Navbar() {
                 About
               </a>
               <a
-                href="#"
+                href="/survey/instructions"
                 className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
               >
                 Survey
@@ -93,7 +93,8 @@ function Navbar() {
         <div>
           <button
             onClick={logOutButton}
-            className="inline-block text-base px-4 py-2 ml-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-500 hover:bg-white mt-4 lg:mt-0"
+            className="inline-block text-base px-4 py-2 ml-0 lg:ml-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-500 hover:bg-white mt-4 lg:mt-0"
+
           >
             Log out
           </button>
