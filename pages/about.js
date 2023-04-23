@@ -51,7 +51,7 @@ function About() {
                 style={{ borderRadius: "20px" }} 
                 />
                 <h3 className="text-xl font-bold text-white text-center mb-2 mt-4">Santiago Rodríguez</h3>
-                <p className="text-white text-center mt-2">Lead Marketer</p>
+                <p className="text-white text-center mt-2">IAM & Backend Developer</p>
             </div>
             <div className="max-w-sm mx-auto mb-8">
                 <Image 
@@ -62,7 +62,7 @@ function About() {
                 style={{ borderRadius: "20px" }} 
                 />
                 <h3 className="text-xl font-bold text-white text-center mb-2 mt-5">Dominick</h3>
-                <p className="text-white text-center">Lead Marketer</p>
+                <p className="text-white text-center">Frontend Developer</p>
             </div>
             </div>
         </div>
