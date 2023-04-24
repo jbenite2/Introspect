@@ -32,7 +32,7 @@ function SurveyLandingPage() {
           Please answer the questions as honestly and accurately as possible.
         </p>
 
-        <button onClick={() => Router.push('/survey/questions')} className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow">
+        <button onClick={() => Router.push('/survey/test')} className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow">
           Start Survey
         </button>
       </div>
