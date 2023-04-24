@@ -1,8 +1,98 @@
 import { useState, useEffect } from 'react';
-import questions from '../questions';
 
+const questions = [
+  {
+    question: "Was the decision to drop the atomic bombs on Hiroshima and Nagasaki justified?",
+    choices: [
+        "Yes, because...",
+        "Yes, because...",
+        "Yes, because...",
+        "No, because...",
+        "No, because...",
+        "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that violent revolution is ever justified in pursuit of social or political change?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Was the decision to intern Japanese Americans during World War II justified?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that the use of torture in interrogations is ever justified?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that violent revolution is ever justified in pursuit of social or political change?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that the death penalty is an ethical form of punishment?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that colonialism was an ethical and justifiable practice?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  {
+    question: "Do you believe that affirmative action is an ethical practice?",
+    choices: [
+      "Yes, because...",
+      "Yes, because...",
+      "Yes, because...",
+      "No, because...",
+      "No, because...",
+      "No, because...",
+    ]
+  },
+  // Add more questions and choices here
+];
 
-const SECONDS_PER_QUESTION = 300;
+const SECONDS_PER_QUESTION = 30;
 
 export default function SurveyPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
