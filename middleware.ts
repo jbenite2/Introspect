@@ -12,9 +12,9 @@ export async function middleware(req: NextRequest) {
     //     return
     // }
 
-    // if (req.url.includes('/dashboard') && !verifiedToken) {
-    //     return NextResponse.redirect(new URL('/', req.url))
-    // }
+    if (req.url.includes('/dashboard') && !verifiedToken) {
+        return NextResponse.redirect(new URL('/', req.url))
+    }
 
     // if (!verifiedToken) {
     //     return NextResponse.redirect(new URL('/', req.url))
