@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 
 const SignupForm = () => {
-	const { data: session } = useSession();
-	console.log('session: ', session)
 
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
@@ -31,11 +28,8 @@ const SignupForm = () => {
 				}),
 			});
 
-			const data = await response.json(); // parse response from server
-			console.log(data); // log response from server
-
 			if (response.ok) {
-				router.push('/dashboard');
+				router.push('/');
 				return res.status(200).json(user, { success: true });
 			} else {
 				return res.status(500).json({ error: error.message });

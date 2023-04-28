@@ -12,7 +12,7 @@ function Navbar() {
   };
 
   const logOutButton = () => {
-    signOut({redirect: false});
+    signOut({ redirect: true });
     router.push("/");
   };
 

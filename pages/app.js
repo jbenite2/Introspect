@@ -8,38 +8,7 @@ export default function Home() {
     const [password, setPassword] = useState("");
 
     const router = useRouter();
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     try {
-    //         const response = await fetch("/api/login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 email,
-    //                 password,
-    //             }),
-    //         });
-
-    //         if (response.status == 200) {
-    //             //create a session and route user to dashboard or whatever
-    //             setEmail("");
-    //             setPassword("");
-    //             alert("Login successful");
-    //             router.push("/dashboard");
-    //         } else {
-    //             setEmail("");
-    //             setPassword("");
-    //             console.log("Invalid credentials");
-    //             alert("Invalid credentials, try again.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error submitting form:", error);
-    //     }
-    // };
+    let result;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -57,24 +26,23 @@ export default function Home() {
             });
 
             if (response.status == 200) {
-                const result = await signIn("credentials", {
+                result = await signIn("credentials", {
                     redirect: false,
                     email,
                     password,
                 });
             }
 
-            //   console.log(result)
-
-            //   if (result.error) {
-            //     console.log(result.error);
-            //     alert("Invalid credentials, try again.");
-            //     return;
-            //   }
-
             setEmail("");
             setPassword("");
+
+            if (!result || response.status != 200) {
+                alert("Invalid credentials, try again.");
+                return;
+            }
+
             alert("Login successful");
+
             router.push("/dashboard");
         } catch (error) {
             console.error("Error submitting form:", error);
