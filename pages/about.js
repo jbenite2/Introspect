@@ -3,6 +3,7 @@ import Image from "next/image";
 import Navbar from "./components/navbar/navbar";
 import { useSession } from "next-auth/react";
 import UnauthorizedPage from "./unauthorized";
+import Spinner from "./components/spinner/spinner";
 
 function About() {
     const { data: session, status } = useSession();
