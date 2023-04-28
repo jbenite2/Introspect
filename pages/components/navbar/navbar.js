@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 function Navbar() {
   const router = useRouter();
@@ -11,6 +12,7 @@ function Navbar() {
   };
 
   const logOutButton = () => {
+    signOut({redirect: false});
     router.push("/");
   };
 
