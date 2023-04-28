@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import UnauthorizedPage from "../unauthorized";
+import Spinner from "../components/spinner/spinner";
 
 const SECONDS_PER_QUESTION = 30;
 const questions = [
