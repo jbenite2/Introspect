@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import UnauthorizedPage from '../unauthorized';
 
+
 const SECONDS_PER_QUESTION = 30;
 const questions = [
 	{
@@ -73,9 +74,11 @@ const questions = [
 export default function SurveyPage() {
 	const { data: session, status } = useSession();
 
-	if(!session){
+	if (!session) {
 		return (<UnauthorizedPage />)
 	}
+
+	const email = session.user.email;
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [answers, setAnswers] = useState(Array(questions.length).fill(null));
@@ -144,9 +147,8 @@ export default function SurveyPage() {
 				<button
 					onClick={handleNextQuestion}
 					disabled={!hasAnswered}
-					className={`bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded mt-4 ${
-						!hasAnswered ? 'opacity-50 cursor-not-allowed' : ''
-					}`}
+					className={`bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded mt-4 ${!hasAnswered ? 'opacity-50 cursor-not-allowed' : ''
+						}`}
 				>
 					Next
 				</button>
@@ -173,6 +175,47 @@ export default function SurveyPage() {
 			</div>
 		);
 	};
+
+	const handleGetSchools = () => {
+		const schools = answers.map((answerIndex, questionIndex) => {
+			const question = questions[questionIndex];
+			const school = question.schools[answerIndex];
+			return school;
+		});
+		return schools;
+	};
+
+	useEffect(() => {
+		if (showSummary) {
+			const schools = handleGetSchools();
+			addScores(email, schools, answersArray);
+		}
+	}, [showSummary]);
+
+	async function addScores(email, schools) {
+		console.log('Before calling api')
+		console.log(email, schools)
+		const response = await fetch('/api/scores', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: email,
+				schools: schools,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		const data = await response.json();
+
+		if (response.ok) {
+			return data;
+		} else {
+			console.log('error')
+		}
+	}
+
+
 
 	return (
 		<div className="flex items-center justify-center h-screen">
