@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
     const [email, setEmail] = useState("");
@@ -43,7 +44,6 @@ export default function Home() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-      
         try {
             const response = await fetch("/api/login", {
                 method: "POST",
@@ -54,33 +54,38 @@ export default function Home() {
                     email,
                     password,
                 }),
+            });
+
+            if (response.status == 200) {
+                const result = await signIn("credentials", {
+                    redirect: false,
+                    email,
+                    password,
                 });
+            }
 
-                if (response.status == 200) {
-          const result = await signIn('credentials', {
-            redirect: false,
-            email,
-            password
-          });}
+            //   console.log(result)
 
-        //   console.log(result)
-      
-        //   if (result.error) {
-        //     console.log(result.error);
-        //     alert("Invalid credentials, try again.");
-        //     return;
-        //   }
-      
-          setEmail("");
-          setPassword("");
-          alert("Login successful");
-          router.push("/dashboard");
+            //   if (result.error) {
+            //     console.log(result.error);
+            //     alert("Invalid credentials, try again.");
+            //     return;
+            //   }
+
+            setEmail("");
+            setPassword("");
+            alert("Login successful");
+            router.push("/dashboard");
         } catch (error) {
-          console.error("Error submitting form:", error);
+            console.error("Error submitting form:", error);
         }
-      };
-      
-      
+    };
+
+    const { data: session, status } = useSession();
+
+    if (session) {
+        router.push("/dashboard");
+    }
 
     return (
         <div className="h-screen">
