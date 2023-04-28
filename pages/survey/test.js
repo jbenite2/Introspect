@@ -159,6 +159,7 @@ export default function SurveyPage() {
 	};
 
 	const answersArray = [];
+	const answersArray = [];
 
 	const renderSummary = () => {
 		return (
@@ -169,8 +170,7 @@ export default function SurveyPage() {
 						answersArray.push(answer);
 						return (
 							<li key={index} className="mb-2">
-								{questions[index].question}:{" "}
-								{questions[index].choices[answer]}
+								{questions[index].question}: {questions[index].choices[answer]}
 							</li>
 						);
 					})}
@@ -178,6 +178,47 @@ export default function SurveyPage() {
 			</div>
 		);
 	};
+
+	const handleGetSchools = () => {
+		const schools = answers.map((answerIndex, questionIndex) => {
+			const question = questions[questionIndex];
+			const school = question.schools[answerIndex];
+			return school;
+		});
+		return schools;
+	};
+
+	useEffect(() => {
+		if (showSummary) {
+			const schools = handleGetSchools();
+			addScores(email, schools, answersArray);
+		}
+	}, [showSummary]);
+
+	async function addScores(email, schools) {
+		console.log('Before calling api')
+		console.log(email, schools)
+		const response = await fetch('/api/scores', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: email,
+				schools: schools,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		const data = await response.json();
+
+		if (response.ok) {
+			return data;
+		} else {
+			console.log('error')
+		}
+	}
+
+
 
 	return (
 		<div className="flex items-center justify-center h-screen">
