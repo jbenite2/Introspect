@@ -149,9 +149,8 @@ export default function SurveyPage() {
                 <button
                     onClick={handleNextQuestion}
                     disabled={!hasAnswered}
-                    className={`bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded mt-4 ${
-                        !hasAnswered ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded mt-4 ${!hasAnswered ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                 >
                     Next
                 </button>
