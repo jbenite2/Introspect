@@ -170,8 +170,7 @@ export default function SurveyPage() {
                         answersArray.push(answer);
                         return (
                             <li key={index} className="mb-2">
-                                {questions[index].question}:{" "}
-                                {questions[index].choices[answer]}
+                                {questions[index].question}: {questions[index].choices[answer]}
                             </li>
                         );
                     })}
