@@ -21,8 +21,11 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/api/auth/[...nextauth].tsx", "pages/app.js"  ],
+    "**/*.tsx",
+    "pages/api/auth/[...nextauth].tsx",
+    "pages/app.js",
+    "middleware.js"
+  ],
   "exclude": [
     "node_modules"
   ]

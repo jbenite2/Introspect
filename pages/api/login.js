@@ -14,6 +14,7 @@ async function login(req, res) {
     const email = body.email;
     const password = body.password;
 
+
     try {
         const user = await prisma.user.findFirst({
             where: {
@@ -22,7 +23,10 @@ async function login(req, res) {
             },
         });
 
+
         if (user && user.password === password) {
+            console.log('user:', user)
+
             return res.status(200).json(user, { success: true });
         } else {
             return res.status(500).json({ error: error.message });
