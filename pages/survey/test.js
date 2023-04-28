@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import UnauthorizedPage from '../unauthorized';
 
 const SECONDS_PER_QUESTION = 30;
 const questions = [
@@ -69,6 +71,12 @@ const questions = [
 ];
 
 export default function SurveyPage() {
+	const { data: session, status } = useSession();
+
+	if(!session){
+		return (<UnauthorizedPage />)
+	}
+
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 	const [timeRemaining, setTimeRemaining] = useState(SECONDS_PER_QUESTION);

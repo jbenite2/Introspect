@@ -2,8 +2,16 @@ import React from 'react';
 import Navbar from '../components/navbar/navbar';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import UnauthorizedPage from '../unauthorized';
 
 function SurveyLandingPage() {
+	const { data: session, status } = useSession();
+
+	if(!session){
+		return (<UnauthorizedPage />)
+	}
+
 	const Router = useRouter();
 
 	return (

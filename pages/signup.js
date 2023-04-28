@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSession } from 'next-auth/react';
 
 const SignupForm = () => {
+	const { data: session } = useSession();
+	console.log('session: ', session)
+
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [firstName, setFirstName] = useState('');

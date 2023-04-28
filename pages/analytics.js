@@ -1,7 +1,15 @@
 import React from 'react';
 import Navbar from './components/navbar/navbar';
+import { useSession } from 'next-auth/react';
+import UnauthorizedPage from './unauthorized';
 
 function AnalyticsPage() {
+  const { data: session, status } = useSession();
+
+	if(!session){
+		return (<UnauthorizedPage />)
+	}
+
   return (
     <div className="bg-gradient-to-tr from-purple-600 to-blue-900 min-h-screen">
       <Navbar />

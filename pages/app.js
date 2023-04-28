@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -8,9 +8,42 @@ export default function Home() {
 
     const router = useRouter();
 
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     try {
+    //         const response = await fetch("/api/login", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 email,
+    //                 password,
+    //             }),
+    //         });
+
+    //         if (response.status == 200) {
+    //             //create a session and route user to dashboard or whatever
+    //             setEmail("");
+    //             setPassword("");
+    //             alert("Login successful");
+    //             router.push("/dashboard");
+    //         } else {
+    //             setEmail("");
+    //             setPassword("");
+    //             console.log("Invalid credentials");
+    //             alert("Invalid credentials, try again.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error submitting form:", error);
+    //     }
+    // };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+      
         try {
             const response = await fetch("/api/login", {
                 method: "POST",
@@ -21,24 +54,33 @@ export default function Home() {
                     email,
                     password,
                 }),
-            });
+                });
 
-            if (response.status == 200) {
-                //create a session and route user to dashboard or whatever
-                setEmail("");
-                setPassword("");
-                alert("Login successful");
-                router.push("/dashboard");
-            } else {
-                setEmail("");
-                setPassword("");
-                console.log("Invalid credentials");
-                alert("Invalid credentials, try again.");
-            }
+                if (response.status == 200) {
+          const result = await signIn('credentials', {
+            redirect: false,
+            email,
+            password
+          });}
+
+        //   console.log(result)
+      
+        //   if (result.error) {
+        //     console.log(result.error);
+        //     alert("Invalid credentials, try again.");
+        //     return;
+        //   }
+      
+          setEmail("");
+          setPassword("");
+          alert("Login successful");
+          router.push("/dashboard");
         } catch (error) {
-            console.error("Error submitting form:", error);
+          console.error("Error submitting form:", error);
         }
-    };
+      };
+      
+      
 
     return (
         <div className="h-screen">
