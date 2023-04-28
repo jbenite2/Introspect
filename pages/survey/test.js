@@ -159,7 +159,6 @@ export default function SurveyPage() {
 	};
 
 	const answersArray = [];
-	const answersArray = [];
 
 	const renderSummary = () => {
 		return (
