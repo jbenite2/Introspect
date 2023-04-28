@@ -15,14 +15,6 @@ const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-
-        // // find user from db
-        // if (response.status !== 200) {
-        //   throw new Error("Invalid username or password");
-        // }
-        // // if everything is fine
-        // const user = { email, password };
-        // return user;
         return { id: "1", email, password };
       }
     })
