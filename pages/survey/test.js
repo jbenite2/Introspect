@@ -15,10 +15,10 @@ const questions = [
 			"Act with integrity and responsibility, considering the broader implications of business decisions and promoting ethical values in the business world.",
 		],
 		schools: [
-			("Virtue", "Deontology"),
-			("Care", "Deontology"),
-			"Utilitarianism",
-			("Virtue", "Deontology"),
+			["Virtue", "Deontology"],
+			["Care", "Deontology"],
+			["Utilitarianism"],
+			["Virtue", "Deontology"],
 		],
 	},
 	{
@@ -31,10 +31,10 @@ const questions = [
 			"Act with the virtues of justice and compassion, considering the broader implications of the decision and promoting ethical values in the global market.",
 		],
 		schools: [
-			("Human Rights", "Virtue"),
-			("Social Justice", "Care"),
-			("Utilitarianism", "Deontology"),
-			("Virtue Ethics", "Feminist Ethics"),
+			["Human Rights", "Virtue"],
+			["Social Justice", "Care"],
+			["Utilitarianism", "Deontology"],
+			["Virtue Ethics", "Feminist Ethics"],
 		],
 	},
 	{
@@ -47,10 +47,10 @@ const questions = [
 			"Act with the virtues of integrity and responsibility, considering the broader implications of the decision and promoting ethical values in the tech industry.",
 		],
 		schools: [
-			("Deontology", "Utilitarianism"),
-			("Care", "Virtue"),
-			("Utilitarianism", "Deontology"),
-			("Virtue", "Care"),
+			["Deontology", "Utilitarianism"],
+			["Care", "Virtue"],
+			["Utilitarianism", "Deontology"],
+			["Virtue", "Care"],
 		],
 	},
 	{
@@ -63,10 +63,10 @@ const questions = [
 			"Act with the virtues of compassion and justice, considering the well-being of patients and the broader societal implications of pricing decisions, and promote ethical values in the pharmaceutical industry.",
 		],
 		schools: [
-			("Healthcare Justice", "Virtue Ethics"),
-			("Social Justice", "Care Ethics"),
-			("Utilitarianism", "Deontology"),
-			("Global Justice", "Feminist Ethics"),
+			["Healthcare Justice", "Virtue Ethics"],
+			["Social Justice", "Care Ethics"],
+			["Utilitarianism", "Deontology"],
+			["Global Justice", "Feminist Ethics"],
 		],
 	},
 ];
@@ -84,6 +84,7 @@ export default function SurveyPage() {
 	const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 	const [timeRemaining, setTimeRemaining] = useState(SECONDS_PER_QUESTION);
 	const [showSummary, setShowSummary] = useState(false);
+	const email = session.user.email;
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -178,10 +179,11 @@ export default function SurveyPage() {
 		);
 	};
 
+
 	const handleGetSchools = () => {
 		const schools = answers.map((answerIndex, questionIndex) => {
 			const question = questions[questionIndex];
-			const school = question.schools[answerIndex];
+			const school = question.schools[answerIndex]
 			return school;
 		});
 		return schools;
@@ -195,8 +197,6 @@ export default function SurveyPage() {
 	}, [showSummary]);
 
 	async function addScores(email, schools) {
-		console.log('Before calling api')
-		console.log(email, schools)
 		const response = await fetch('/api/scores', {
 			method: 'POST',
 			body: JSON.stringify({

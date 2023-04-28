@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 export default async function addScores(req, res) {
     const body = req.body;
     const email = body.email;
-    const scores = body.schools;
-
-    console.log('Made it inside')
+    const schools = body.schools;
 
     try {
         const user = await prisma.user.findFirst({
@@ -25,8 +23,8 @@ export default async function addScores(req, res) {
                 email: email
             },
             data: {
-                scores: {
-                    set: scores //scores is not being set because of a type mismatch between strings[] and varchar4096 in prisma
+                schools: {
+                    schools
                 }
             }
         });
