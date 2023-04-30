@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const router = useRouter();
+    let result;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,21 +26,34 @@ export default function Home() {
             });
 
             if (response.status == 200) {
-                //create a session and route user to dashboard or whatever
-                setEmail("");
-                setPassword("");
-                alert("Login successful");
-                router.push("/dashboard");
-            } else {
-                setEmail("");
-                setPassword("");
-                console.log("Invalid credentials");
-                alert("Invalid credentials, try again.");
+                result = await signIn("credentials", {
+                    redirect: false,
+                    email,
+                    password,
+                });
             }
+
+            setEmail("");
+            setPassword("");
+
+            if (!result || response.status != 200) {
+                alert("Invalid credentials, try again.");
+                return;
+            }
+
+            alert("Login successful");
+
+            router.push("/dashboard");
         } catch (error) {
             console.error("Error submitting form:", error);
         }
     };
+
+    const { data: session, status } = useSession();
+
+    if (session) {
+        router.push("/dashboard");
+    }
 
     return (
         <div className="h-screen">

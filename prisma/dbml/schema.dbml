@@ -55,7 +55,7 @@ Table User {
   accounts Account [not null]
   sessions Session [not null]
   responses Response [not null]
-  scores String [not null, default: '[]']
+  schools Json [not null, default: '{}']
 }
 
 Table Response {

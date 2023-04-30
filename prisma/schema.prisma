@@ -62,7 +62,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   responses     Response[]
-  scores        String      @default("[]")
+  schools       Json       @default("{}")
 }
 
 model Response {
