@@ -6,10 +6,10 @@ import { useSession } from "next-auth/react";
 import UnauthorizedPage from "./unauthorized";
 import Spinner from "./components/spinner/spinner";
 
-function Dashboard() {
+function Testing() {
     const { data: session, status } = useSession();
 
-    console.log(session.user.email)
+    console.log(session)
 
     if (status == "loading") {
         return <Spinner />;
@@ -81,4 +81,4 @@ function Dashboard() {
 // 	};
 // }
 
-export default Dashboard;
+export default Testing;

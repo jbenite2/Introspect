@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
+import { useSession } from "next-auth/react";
 
 const data = [
   { category: "Category A", value: 20 },
@@ -12,6 +13,20 @@ const Dashboard = () => {
   const svgRef1 = useRef(null);
   const svgRef2 = useRef(null);
   const svgRef3 = useRef(null);
+  const { data: session } = useSession();
+  // email = session.user.email 
+  // console.log(email)
+
+  console.log(session)
+  console.log(session)
+
+  let email = 'NULL'
+
+  if (session.user.email) {
+    email = session.user.email
+  }
+
+  console.log(email)
 
   useEffect(() => {
     const width = 400;
