@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import { useSession } from "next-auth/react";
 
 const data = [
   { category: "Category A", value: 20 },
@@ -13,22 +12,29 @@ const Dashboard = () => {
   const svgRef1 = useRef(null);
   const svgRef2 = useRef(null);
   const svgRef3 = useRef(null);
-  const { data: session } = useSession();
-  // email = session.user.email 
-  // console.log(email)
-
-  console.log(session)
-  console.log(session)
-
-  let email = 'NULL'
-
-  if (session.user.email) {
-    email = session.user.email
-  }
-
-  console.log(email)
 
   useEffect(() => {
+    
+    // get email from session if logged in
+    if (typeof sessionStorage !== 'undefined') {
+      const email = sessionStorage.getItem('user_email');
+      console.log(email)
+      async function fetchData() {
+        try {
+          const res = await fetch(`/api/userSurveyData?email=${email}`);
+          const user_data = await res.json();
+          const schools = user_data.schools;
+          console.log('Nice');
+          console.log('User data:', user_data);
+          console.log('School:', schools);
+        } catch (error) {
+          console.error(error.message);
+          console.log('No');
+        }
+      }
+      fetchData();
+    }
+
     const width = 400;
     const height = 400;
     const svg1 = d3.select(svgRef1.current).attr('width', width).attr('height', height);

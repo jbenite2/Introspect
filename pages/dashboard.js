@@ -9,7 +9,7 @@ import Spinner from "./components/spinner/spinner";
 function Dashboard() {
     const { data: session, status } = useSession();
 
-    console.log(session.user.email)
+    sessionStorage.setItem('user_email', session.user.email)
 
     if (status == "loading") {
         return <Spinner />;
