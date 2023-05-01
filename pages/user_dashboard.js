@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 const data = [
@@ -14,6 +14,27 @@ const Dashboard = () => {
   const svgRef3 = useRef(null);
 
   useEffect(() => {
+    
+    // get email from session if logged in
+    if (typeof sessionStorage !== 'undefined') {
+      const email = sessionStorage.getItem('user_email');
+      console.log(email)
+      async function fetchData() {
+        try {
+          const res = await fetch(`/api/userSurveyData?email=${email}`);
+          const user_data = await res.json();
+          const schools = user_data.schools;
+          console.log('Nice');
+          console.log('User data:', user_data);
+          console.log('School:', schools);
+        } catch (error) {
+          console.error(error.message);
+          console.log('No');
+        }
+      }
+      fetchData();
+    }
+
     const width = 400;
     const height = 400;
     const svg1 = d3.select(svgRef1.current).attr('width', width).attr('height', height);
