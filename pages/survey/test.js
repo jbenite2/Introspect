@@ -17,9 +17,9 @@ const questions = [
         ],
         schools: [
             ["Utilitarianism"],
-            ["Care"],
+            ["Care Ethics"],
             ["Deontology"],
-            ["Virtue"],
+            ["Virtue Ethics"],
         ],
     },
     {
@@ -32,9 +32,9 @@ const questions = [
             "The company has a duty to prioritize fair treatment and safe working conditions for workers, regardless of the potential financial gain.",
         ],
         schools: [
-            ["Virtue"],
+            ["Virtue Ethics"],
             ["Utilitarianism"],
-            ["Care"],
+            ["Care Ethics"],
             ["Deontology"],
         ],
     },
@@ -49,9 +49,9 @@ const questions = [
         ],
         schools: [
             ["Deontology"],
-            ["Virtue"],
+            ["Virtue Ethics"],
             ["Utilitarianism"],
-            ["Care"],
+            ["Care Ethics"],
         ],
     },
     {
@@ -64,9 +64,9 @@ const questions = [
             "They have a duty to prioritize the health and well-being of patients over profits, and they should not charge a high price.",
         ],
         schools: [
-            ["Care"],
+            ["Care Ethics"],
             ["Utilitarianism"],
-            ["Virtue"],
+            ["Virtue Ethics"],
             ["Deontology"],
         ],
     },
@@ -79,8 +79,8 @@ const questions = [
             "They should prioritize the overall benefit to society and use the autonomous weapons to protect innocent people, even if it means causing harm to some.",
         ],
         schools: [
-            ["Virtue"],
-            ["Care"],
+            ["Virtue Ethics"],
+            ["Care Ethics"],
             ["Deontology"],
             ["Utilitarianism"],
         ]
@@ -94,9 +94,9 @@ const questions = [
           "The car should follow one set of rules and not deviate from them, even if it means harming more innocent people.",
         ],
         schools: [
-            ["Care"],
+            ["Care Ethics"],
           ["Utilitarianism"],
-          ["Virtue"],
+          ["Virtue Ethics"],
           ["Deontology"],
         ]
       },
@@ -110,9 +110,9 @@ const questions = [
         ],
         schools: [
             ["Deontology"],
-            ["Care"],
+            ["Care Ethics"],
             ["Utilitarianism"],
-          ["Virtue"],
+            ["Virtue Ethics"],
         ]
       },
       {
@@ -124,8 +124,8 @@ const questions = [
             "Calculate if the likelihood of success outweighs the potential harm to society.",
         ],
         schools: [
-            ["Virtue"],
-            ["Care"],
+            ["Virtue Ethics"],
+            ["Care Ethics"],
             ["Deontology"],
             ["Utilitarianism"],
         ]
@@ -140,8 +140,8 @@ const questions = [
         ],
         schools: [
           ["Utilitarianism"],
-          ["Care"],
-          ["Virtue"],
+          ["Care Ethics"],
+          ["Virtue Ethics"],
           ["Deontology"],
         ]
       },
@@ -154,9 +154,9 @@ const questions = [
             "They should put more investments in combating hate speech and harassment to minimize the amount of harm being done to users.",
         ],
         schools: [
-            ["Care"],
+            ["Care Ethics"],
             ["Deontology"],
-            ["Virtue"],
+            ["Virtue Ethics"],
             ["Utilitarianism"],
         ]
       },
