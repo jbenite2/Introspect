@@ -136,7 +136,7 @@ const Dashboard = () => {
                   This is your ideological distribution based on your survey answers.
                 </p>
               </div>
-              <svg ref={svgRef1} className="w-full h-full"></svg>
+              <svg ref={svgRef1} className="flex justify-center"></svg>
               <div className="flex justify-center">
                 {finalData.map((data) => (
                   <div className="text-white mx-4" key={data.category}>
@@ -146,7 +146,11 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
-              <p className="flex justify-center mt-2">*Click above to learn more*</p>
+              <p className="flex text-white justify-center mt-10" style={{fontWeight: "bold"}}>Resources</p>
+              <a href="https://ethics.org.au/ethics-explainer-deontology/" target="_blank" className="flex text-white justify-center mt-2">Ethics Explainer: Deontology (article).</a>
+              <a href="https://ethicsofcare.org/joan-tronto/#:~:text=An%20ethic%20of%20care%20is,and%20give%20care%20to%20others." target="_blank" className="flex text-white justify-center mt-2">What is Care Ethics?" by Joan Tronto (article)</a>
+              <a href="https://rintintin.colorado.edu/~vancecd/phil3160/Nozick1.pdf" className="flex text-white justify-center mt-2">The Experience Machine" by Robert Nozick (article)</a>
+              <a href="https://www.youtube.com/watch?v=x2kLOisfkPw" className="flex text-white justify-center mt-2">Virtue Ethics" by Wireless Philosophy (video).</a>
             </div>
           </div>
         </div>
