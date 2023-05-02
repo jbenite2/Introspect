@@ -56,7 +56,7 @@ function Dashboard() {
                 </div>
             </div>
             <style jsx>{`
-                @media (max-width: 640px) {
+                @media (max-width: 1025px) {
                     .w-full {
                         display: none;
                     }
