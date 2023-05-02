@@ -62,10 +62,10 @@ function Navbar() {
                 Survey
               </a>
               <a
-                href="/analytics"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
+                href="/user_dashboard"
+                className="block mt-4 mr-2 lg:inline-block lg:mt-0 text-white hover:text-white"
               >
-                Analytics
+                Dashboard
               </a>
             </div>
           )}
@@ -84,19 +84,18 @@ function Navbar() {
                 Survey
               </a>
               <a
-                href="/analytics"
+                href="/user_dashboard"
                 className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
               >
-                Analytics
+                Dashboard
               </a>
             </div>
           )}
         </div>
-        <div>
+        <div className="mr-2">
           <button
             onClick={logOutButton}
             className="inline-block text-base px-4 py-2 ml-0 lg:ml-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-500 hover:bg-white mt-4 lg:mt-0"
-
           >
             Log out
           </button>
