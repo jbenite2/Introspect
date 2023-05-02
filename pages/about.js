@@ -22,13 +22,10 @@ function About() {
                     <h1 className="text-4xl font-bold text-white text-center mb-8">
                         Our Mission
                     </h1>
-                    <p className="text-white text-xl text-center max-w-3xl mx-auto">
-                        We believe in empowering individuals to take control of
-                        their lives and improve their well-being. Our mission is
-                        to provide the tools and resources necessary to help
-                        people gain insight into their thoughts, feelings, and
-                        behaviors, and make positive changes for themselves and
-                        their communities.
+                    <p className="text-white text-xl max-w-3xl mx-auto text-left">
+                    At Introspect, we believe that one of the keys to personal growth and development is the ability to broaden our horizons and gain new perspectives. By exposing ourselves to diverse schools of thought and challenging our existing beliefs, we can expand our understanding of ourselves and the world around us. However, we also understand that accessing different perspectives can be challenging, particularly for those who are limited by geography, access to resources, or other barriers.
+                    Our web app accomplishes this mission by offering an interactive survey and personalized feedback and resources tailored to their unique interests and needs. This feedback includes suggestions for reading materials, podcasts, videos, and other resources that can help users explore new ideas and challenge their existing beliefs.
+                    By promoting open-mindedness and self-reflection, we hope to foster a more empathetic and connected global community.
                     </p>
                 </div>
             </section>
