@@ -21,11 +21,11 @@ function SurveyLandingPage() {
         <div className="bg-gradient-to-tr from-purple-600 to-blue-900 min-h-screen">
             <Navbar />
             <div className="flex flex-col items-center justify-center h-full">
-                <div className="w-full max-w-[500px]">
+                <div className="w-full max-w-[300px] mt-[-40px]">
                     <Image
                         src="/Heart-and-Mind.png"
                         alt="Survey"
-                        width={500}
+                        width={300}
                         height={200}
                         layout="responsive"
                     />
@@ -39,17 +39,15 @@ function SurveyLandingPage() {
                     in each situation.
                 </p>
                 <p className="text-white text-lg px-10 mb-8 lg:mb-8 lg:px-4">
-                    The questions are timed, and you should be able to complete
-                    them in under three minutes.
+                    We recommend answering within 45 seconds, but you will not be penalized if you go over.
                 </p>
                 <p className="text-white text-lg px-10 mb-8 lg:mb-8 lg:px-4">
-                    Please answer the questions as honestly and accurately as
-                    possible.
+                    Some answers may sound similar, so choose the one that sounds the best to you.
                 </p>
 
                 <button
                     onClick={() => Router.push("/survey/test")}
-                    className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow"
+                    className="bg-white hover:bg-gray-100 text-purple-500 font-semibold py-2 px-4 border border-purple-500 rounded shadow mb-8"
                 >
                     Start Survey
                 </button>
