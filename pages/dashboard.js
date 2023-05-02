@@ -9,6 +9,10 @@ import Spinner from "./components/spinner/spinner";
 function Dashboard() {
     const { data: session, status } = useSession();
 
+    if (typeof window !== 'undefined' && session) {
+        sessionStorage.setItem('user_email', session.user.email);
+    }
+
     if (status == "loading") {
         return <Spinner />;
     }
@@ -18,7 +22,7 @@ function Dashboard() {
 
     const Router = useRouter();
     return (
-        <div className="bg-gradient-to-tr from-purple-600 to-blue-900 min-h-screen">
+        <div className="bg-gradient-to-tr from-purple-600 to-blue-900 dashboard-container">
             <Navbar />
             <div className="flex flex-col items-center justify-center h-full">
                 <div className="w-full max-w-[500px] lg:ml-[-800px]">
@@ -52,31 +56,13 @@ function Dashboard() {
                 </div>
             </div>
             <style jsx>{`
-                @media (max-width: 640px) {
-                    .w-full {
-                        display: none;
-                    }
+                .dashboard-container {
+                    height: 100vh;
+                    overflow: hidden;
                 }
             `}</style>
         </div>
     );
 }
-
-// export async function getServerSideProps(context) {
-// 	const session = await getSession(context);
-
-// 	if (!session) {
-// 		return {
-// 			redirect: {
-// 				destination: '/survey/instructions',
-// 				permanent: false,
-// 			},
-// 		};
-// 	}
-
-// 	return {
-// 		props: { session },
-// 	};
-// }
 
 export default Dashboard;

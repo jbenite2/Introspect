@@ -1,50 +1,58 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-const data = [
-  { category: "Category A", value: 20 },
-  { category: "Category B", value: 30 },
-  { category: "Category C", value: 10 },
-  { category: "Category D", value: 40 }
-];
-
 const Dashboard = () => {
   const svgRef1 = useRef(null);
-  const svgRef2 = useRef(null);
-  const svgRef3 = useRef(null);
+
+
+  const [finalData, setFinalData] = useState([]);
 
   useEffect(() => {
-    
-    // get email from session if logged in
-    if (typeof sessionStorage !== 'undefined') {
-      const email = sessionStorage.getItem('user_email');
-      console.log(email)
-      async function fetchData() {
-        try {
-          const res = await fetch(`/api/userSurveyData?email=${email}`);
-          const user_data = await res.json();
-          const schools = user_data.schools;
-          console.log('Nice');
-          console.log('User data:', user_data);
-          console.log('School:', schools);
-        } catch (error) {
-          console.error(error.message);
-          console.log('No');
-        }
+    const email = sessionStorage.getItem("user_email");
+    console.log(email);
+    async function fetchData() {
+      try {
+        const res = await fetch(`/api/userSurveyData?email=${email}`);
+        const user_data = await res.json();
+
+        const { schools } = user_data;
+        console.log("User data:", user_data);
+        console.log("School:", schools);
+        const schoolValues = Object.values(schools)[0].flat();
+        console.log("Schools:", schoolValues);
+
+        const final_data = schoolValues.flat().reduce((acc, category) => {
+          const existingCategory = acc.find(
+            (item) => item.category === category
+          );
+          if (existingCategory) {
+            existingCategory.value++;
+          } else {
+            acc.push({ category, value: 1 });
+          }
+          return acc;
+        }, []);
+
+        console.log(final_data);
+        setFinalData(final_data);
+      } catch (error) {
+        console.error(error.message);
+        console.log("No");
       }
-      fetchData();
     }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
 
     const width = 400;
     const height = 400;
     const svg1 = d3.select(svgRef1.current).attr('width', width).attr('height', height);
-    const svg2 = d3.select(svgRef2.current).attr('width', width).attr('height', height);
-    const svg3 = d3.select(svgRef3.current).attr('width', width).attr('height', height);
 
     // Pie Chart
     const radius = Math.min(width, height) / 3;
     const pie = d3.pie().value(d => d.value);
-    const data_ready1 = pie(data);
+    const data_ready1 = pie(finalData);
 
     const arc = d3.arc()
         .innerRadius(0)
@@ -63,7 +71,7 @@ const Dashboard = () => {
         .attr('transform', (d, i) => `translate(0,${i * 25})`);
     
     const colorScale = d3.scaleOrdinal()
-        .domain(data.map(d => d.category))
+        .domain(finalData.map(d => d.category))
         .range(['#31255e', '#41327e', '#7465b1', '#978bc4']);
       
 
@@ -86,105 +94,82 @@ const Dashboard = () => {
         .style('text-anchor', 'middle')
         .style('font-size', 12)
         .style('fill', 'white')
-        .text(d => d3.format(".0%")(d.data.value/ d3.sum(data, d => d.value)));
+        .text(d => d3.format(".0%")(d.data.value/ d3.sum(finalData, d => d.value)));
       
 
     legend.append('rect')
+        .attr('x', -15)
+        .attr('y', -5)
         .attr('width', 20)
         .attr('height', 20)
         .attr('fill', (d, i) => colorScale(i))
     
     legend.append('text')
-        .attr('x', 25)
+        .attr('x', 10)
         .attr('y', 10)
         .style('font-size', 14)
+        .style('fill', 'white')
         .text(d => d.data.category);
+
     
-
-    // Bar Chart
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
-
-    const x = d3.scaleBand()
-      .range([0, innerWidth])
-      .padding(0.1)
-      .domain(data.map(d => d.category));
-
-    const y = d3.scaleLinear()
-      .range([innerHeight, 0])
-      .domain([0, d3.max(data, d => d.value)]);
-
-    const g2 = svg2.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    g2.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', d => x(d.category))
-      .attr('y', d => y(d.value))
-      .attr('height', d => innerHeight - y(d.value))
-      .attr('width', x.bandwidth())
-      .attr('fill', d => d3.schemeCategory10[1]);
-
-    g2.append('g')
-      .attr('transform', `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(x));
-
-    g2.append('g')
-      .call(d3.axisLeft(y));
-
-    // Line Chart
-    const line = d3.line()
-      .x(d => x(d.category) + x.bandwidth() / 2)
-      .y(d => y(d.value));
-
-    const g3 = svg3.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    g3.append('path')
-      .datum(data)
-      .attr('fill', 'none')
-      .attr('stroke', d3.schemeCategory10[2])
-      .attr('stroke-width', 1.5)
-      .attr('d', line);
-
-    g3.selectAll('dot')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('cx', (d) => x(d.category) + x.bandwidth() / 2)
-      .attr('cy', (d) => y(d.value))
-      .attr('r', 5)
-      .attr('fill', '#4BC0C0');
-  
-    // Add x-axis label
-    svg3
-      .append('text')
-      .attr('x', width / 2)  // <--- comma instead of semicolon
-      .attr('y', height + margin.top + 20)
-      .style('text-anchor', 'middle')
-      .text('Date');
-  
-    // Add y-axis label
-    svg3
-      .append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('x', 0 - height / 2)
-      .attr('y', margin.left - 40)
-      .style('text-anchor', 'middle')
-      .text('Value');
-  
-    }, []);
+    }, [finalData]);
 
     return (
-        <div className="flex justify-around">
-          <svg ref={svgRef1} width={300} height={300}></svg>
-          <svg ref={svgRef2} width={300} height={300}></svg>
-          <svg ref={svgRef3} width={500} height={400}></svg>
+      <>
+        <div className="flex justify-center bg-gradient-to-tr from-purple-600 to-blue-900">
+          <div className="pie-chart-container ">
+            <div className="bg-transparent p-4 flex flex-col justify-between leading-normal">
+              <div className="mb-2 text-center">
+                <div className="text-white font-bold text-xl mb-2">
+                  Ideology Distribution
+                </div>
+                <p className="text-white text-base">
+                  This is your distribution based on your survey answers.
+                </p>
+              </div>
+              <svg ref={svgRef1} width={500} height={500}></svg>
+            </div>
+          </div>
         </div>
-      );
+        <div className="materials-container">
+          <div className="bg-white border rounded-lg p-4 flex flex-col justify-between leading-normal">
+            <div className="mb-2">
+              <div className="text-gray-900 font-bold text-xl mb-2">Materials</div>
+              <p className="text-gray-700 text-base">
+                Here are some materials to help you learn more.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center mt-2">
+              <div className="mr-4 mb-4">
+                <a href="#" className="text-purple-500 font-semibold">
+                  Article 1
+                </a>
+              </div>
+              <div className="mr-4 mb-4">
+                <a href="#" className="text-purple-500 font-semibold">
+                  Article 2
+                </a>
+              </div>
+              <div className="mr-4 mb-4">
+                <a href="#" className="text-purple-500 font-semibold">
+                  Article 3
+                </a>
+              </div>
+              <div className="mr-4 mb-4">
+                <a href="#" className="text-purple-500 font-semibold">
+                  Article 4
+                </a>
+              </div>
+              <div className="mr-4 mb-4">
+                <a href="#" className="text-purple-500 font-semibold">
+                  Article 5
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );  
     };
     
     export default Dashboard;
