@@ -22,7 +22,7 @@ function Dashboard() {
 
     const Router = useRouter();
     return (
-        <div className="bg-gradient-to-tr from-purple-600 to-blue-900 dashboard-container">
+        <div className="bg-gradient-to-tr from-purple-600 to-blue-900 min-h-screen">
             <Navbar />
             <div className="flex flex-col items-center justify-center h-full">
                 <div className="w-full max-w-[500px] lg:ml-[-800px]">
@@ -56,9 +56,10 @@ function Dashboard() {
                 </div>
             </div>
             <style jsx>{`
-                .dashboard-container {
-                    height: 100vh;
-                    overflow: hidden;
+                @media (max-width: 640px) {
+                    .w-full {
+                        display: none;
+                    }
                 }
             `}</style>
         </div>
