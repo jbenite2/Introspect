@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import Navbar from "./components/navbar/navbar";
 import * as d3 from 'd3';
 
 const Dashboard = () => {
@@ -21,17 +22,23 @@ const Dashboard = () => {
         const schoolValues = Object.values(schools)[0].flat();
         console.log("Schools:", schoolValues);
 
-        const final_data = schoolValues.flat().reduce((acc, category) => {
-          const existingCategory = acc.find(
-            (item) => item.category === category
-          );
-          if (existingCategory) {
-            existingCategory.value++;
-          } else {
-            acc.push({ category, value: 1 });
-          }
+        const categories = {
+          Deontology: 0,
+          Care: 0,
+          Utilitarianism: 0,
+          Virtue: 0,
+        };
+        
+        const countByCategory = schoolValues.flat().reduce((acc, category) => {
+          acc[category]++;
           return acc;
-        }, []);
+        }, categories);
+        
+        const final_data = Object.entries(countByCategory).map(([category, value]) => ({
+          category,
+          value,
+        }));
+        
 
         console.log(final_data);
         setFinalData(final_data);
@@ -72,7 +79,7 @@ const Dashboard = () => {
     
     const colorScale = d3.scaleOrdinal()
         .domain(finalData.map(d => d.category))
-        .range(['#31255e', '#41327e', '#7465b1', '#978bc4']);
+        .range(['#271b54', '#41327e', '#7465b1', '#b6b0d6']);
       
 
     const g1 = svg1.append('g')
@@ -115,61 +122,34 @@ const Dashboard = () => {
     }, [finalData]);
 
     return (
-      <>
-        <div className="flex justify-center bg-gradient-to-tr from-purple-600 to-blue-900">
-          <div className="pie-chart-container ">
+      <div className="min-h-screen bg-gradient-to-tr from-purple-600 to-blue-900">
+        <Navbar />
+        <div className="flex justify-center items-center h-full">
+          <div className="pie-chart-container">
             <div className="bg-transparent p-4 flex flex-col justify-between leading-normal">
               <div className="mb-2 text-center">
                 <div className="text-white font-bold text-xl mb-2">
                   Ideology Distribution
                 </div>
-                <p className="text-white text-base">
-                  This is your distribution based on your survey answers.
+                <p className="text-white text-base mb-4">
+                  This is your ideological distribution based on your survey answers.
                 </p>
               </div>
-              <svg ref={svgRef1} width={500} height={500}></svg>
-            </div>
-          </div>
-        </div>
-        <div className="materials-container">
-          <div className="bg-white border rounded-lg p-4 flex flex-col justify-between leading-normal">
-            <div className="mb-2">
-              <div className="text-gray-900 font-bold text-xl mb-2">Materials</div>
-              <p className="text-gray-700 text-base">
-                Here are some materials to help you learn more.
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center mt-2">
-              <div className="mr-4 mb-4">
-                <a href="#" className="text-purple-500 font-semibold">
-                  Article 1
-                </a>
-              </div>
-              <div className="mr-4 mb-4">
-                <a href="#" className="text-purple-500 font-semibold">
-                  Article 2
-                </a>
-              </div>
-              <div className="mr-4 mb-4">
-                <a href="#" className="text-purple-500 font-semibold">
-                  Article 3
-                </a>
-              </div>
-              <div className="mr-4 mb-4">
-                <a href="#" className="text-purple-500 font-semibold">
-                  Article 4
-                </a>
-              </div>
-              <div className="mr-4 mb-4">
-                <a href="#" className="text-purple-500 font-semibold">
-                  Article 5
-                </a>
+              <svg ref={svgRef1} className="w-full h-full"></svg>
+              <div className="flex justify-center">
+                {finalData.map((data) => (
+                  <div className="text-white mx-4" key={data.category}>
+                    {data.category}: {data.value}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      </>
-    );  
+      </div>
+    );
+    
+    
     };
     
     export default Dashboard;
