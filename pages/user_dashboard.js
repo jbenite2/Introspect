@@ -3,6 +3,7 @@ import Navbar from "./components/navbar/navbar";
 import * as d3 from 'd3';
 
 const Dashboard = () => {
+
   const svgRef1 = useRef(null);
 
 
@@ -23,10 +24,10 @@ const Dashboard = () => {
         console.log("Schools:", schoolValues);
 
         const categories = {
-          Deontology: 0,
-          Care: 0,
-          Utilitarianism: 0,
-          Virtue: 0,
+          "Deontology": 0,
+          "Care Ethics": 0,
+          "Utilitarianism": 0,
+          "Virtue Ethics": 0,
         };
         
         const countByCategory = schoolValues.flat().reduce((acc, category) => {
@@ -139,10 +140,13 @@ const Dashboard = () => {
               <div className="flex justify-center">
                 {finalData.map((data) => (
                   <div className="text-white mx-4" key={data.category}>
-                    {data.category}: {data.value}
+                    <a href={`/learn/${data.category.toLowerCase()}`}>
+                      {data.category}
+                    </a>: {data.value}
                   </div>
                 ))}
               </div>
+              <p className="flex justify-center mt-2">*Click above to learn more*</p>
             </div>
           </div>
         </div>
