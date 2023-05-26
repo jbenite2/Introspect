@@ -5,7 +5,7 @@
 1. Initialize a git repository in Git Hub
 2. Make a local copy of the repo
     ```bash
-        git clone https://github.com/jbenite2/Powerhouse
+        git clone https://github.com/jbenite2/Introspect
     ```
 3. Install next, react and react-dom in your project folder:
     ```bash
