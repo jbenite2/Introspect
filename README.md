@@ -60,7 +60,7 @@
     ```bash
     DATABASE_URL='mysql://<USERNAME>:<PASSWORD>@<HOST>/<DATABASE_NAME>?sslaccept=strict'
     ```
-8. Run this command to extract the necessary information for step 7. Be sure to modify that DATABASE_URL with your credentials.
+8. Run this command to extract the necessary information for step 7. Be sure to modify that DATABASE_URL with your credentials. Alternatively choose desired framework in the Planet Scale web platform. 
     ```bash
      pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>
     ```
