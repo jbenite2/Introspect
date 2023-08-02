@@ -153,3 +153,8 @@ We support - Github
     ```
 -   If you're getting a DDL error try demoting the main branch in Planet Scale
 -   If the endpoint call works locally but not in Vercel, make sure the prisma and .env file are in the root folder NOT in the pages folder.
+-   If getting this error "Error: Generator "prisma-dbml-generator" failed:"
+    ```bash
+        npm install -D prisma-dbml-generator
+        npx prisma generate
+    ```
