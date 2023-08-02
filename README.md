@@ -147,6 +147,7 @@ We support - Github
 
 # Q/A
 
+-   If getting this error 'Error: PrismaClient is unable to be run in the browser.' make sure new PrismaClient() exists INSIDE a function in the api folder.
 -   If you get this error: The column `(not available)` does not exist in the current database.
     ```bash
         npx prisma db push
