@@ -154,6 +154,11 @@ We support - Github
     ```
 -   If you're getting a DDL error try demoting the main branch in Planet Scale
 -   If the endpoint call works locally but not in Vercel, make sure the prisma and .env file are in the root folder NOT in the pages folder.
+-    If getting Authentication failed against database server at 'aws.connectpsdb.cloud', the provided credentials for ___ are not valid:
+  ```bash
+        npm install (to update dependencies and make sure that is not the problem)
+        npx prisma db push
+    ```
 -   If getting this error "Error: Generator "prisma-dbml-generator" failed:"
     ```bash
         npm install -D prisma-dbml-generator
