@@ -158,7 +158,6 @@ We support - Github
   ```bash
         npm install (to update dependencies and make sure that is not the problem)
         npx prisma db push
-    ```
 -   If getting this error "Error: Generator "prisma-dbml-generator" failed:"
     ```bash
         npm install -D prisma-dbml-generator
